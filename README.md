@@ -1,19 +1,34 @@
 # gomo
 
-A terminal pomodoro app for the minimalists.
+A terminal pomodoro app for the minimalists. Developed and tested on Linux.
 
 ## Features
 
-- chain into other commands (e.g. `notify-send`)
-- stdout the task details (for logging purposes)
+- [x] chain into other commands (e.g. `notify-send`)
+- [ ] log (append) the task details
     - start and end time
-- pause the task by pressing p
+- [ ] detect Ctrl-c to cancel the task and stdout the stop time
 
-### Upcoming Features
-- stdout pause and unpause time in logging
+### Roadmap
+- tags
+- customise loging format using golang template
+- toggle pausing by pressing `p`
+- logout pause and unpause time in logging
 - minimalistic way to cycle between task and rest
+- progress bar
 
 ## Usage
 ```
-gomo --time "60m" --task "Write gomo app" --description "Random description" && notify-send "You have completed the task!"
+gomo --time "2s" --name "Write Gomo CLI" --description "Writing an minimalistic CLI pomodoro" && notify-send "Task done" "Take a rest"
 ```
+
+### Rest timer
+```
+gomo --name "Rest" --time "10m"
+```
+
+### Disable logging
+```
+gomo --log /dev/null ...
+```
+
