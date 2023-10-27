@@ -18,7 +18,7 @@ Developed and tested on Linux Mint using Go 1.21.2
 - minimalistic way to cycle between task and rest
 
 ## Installation
-```
+```sh
 git clone https://github.com/leongjs98/gomo
 cd gomo && go build
 mkdir ~/.local/share/gomo/ && mv main ~/.local/share/gomo/gomo
@@ -31,11 +31,18 @@ gomo --task "Your Task" --duration "30m" && notify-send "Task done" "Take a rest
 
 ### Notification sounds
 
-Play your notification sound in the terminal
+Use `&&` to play your notification sound in the terminal
 E.g. On Linux Mint, the notification sound is on `/usr/share/mint-artwork/sounds/notification.oga`
 
 ```sh
 gomo --task "Work" --duration "60m" && mpv /usr/share/mint-artwork/sounds/notification.oga
+```
+
+### Logging your task
+The default log file is `./gomo.log`, you can change it
+
+```sh
+gomo --task "Work" --duration "60m" --log "./work.log"
 ```
 
 ### Rest timer
