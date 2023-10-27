@@ -19,7 +19,7 @@ Developed and tested on Linux Mint using Go 1.21.2
 
 ## usage
 ```sh
-gomo --time "2s" --name "Write Gomo CLI" && notify-send "Task done" "Take a rest"
+gomo --task "Your Task" --duration "30m" && notify-send "Task done" "Take a rest"
 ```
 
 ### Notification sounds
@@ -28,12 +28,12 @@ Play your notification sound in the terminal
 E.g. On Linux Mint, the notification sound is on `/usr/share/mint-artwork/sounds/notification.oga`
 
 ```sh
-gomo --name "Work" --time "60m" && mpv /usr/share/mint-artwork/sounds/notification.oga
+gomo --task "Work" --duration "60m" && mpv /usr/share/mint-artwork/sounds/notification.oga
 ```
 
 ### Rest timer
 ```sh
-gomo --name "Rest" --time "10m" && notify-send "Let's go!" "Work on your stuff again" && mpv /usr/share/mint-artwork/sounds/notification.oga
+gomo --task "Rest" --duration "10m" && notify-send "Let's go!" "Work on your stuff again"
 ```
 
 ### Disable logging

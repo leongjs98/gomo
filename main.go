@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"os/signal"
@@ -8,6 +9,12 @@ import (
 )
 
 const TimeFormat string = "2006-01-02T15:04:05"
+
+type flagStruct struct {
+	name  string
+	value string
+	usage string
+}
 
 type arg struct {
 	longName    string
@@ -22,50 +29,39 @@ func formatTime(d time.Duration) string {
 
 func main() {
 
-	timeArg := arg{
-		longName:    "time",
-		shortName:   't',
-		description: "Set the work time/duration of the task.",
-	}
-	nameArg := arg{
-		longName:    "name",
-		shortName:   'n',
-		description: "Set the name of the task.",
-	}
-	logArg := arg{
-		longName:    "log",
-		shortName:   'l',
-		description: "Set the output log file name",
-	}
-	// TODO: put args into slice, []arg
-	// TODO: for loop to check argument (DRY but slower than switch)
-
-	args := map[string]string{
-		"duration": "30m",
-		"task":     "Untitled Task",
-		"log":      "./gomo.log",
+	durationStruct := flagStruct{
+		name:  "duration",
+		value: "30m",
+		usage: "Set the duration of the task.",
 	}
 
-	// TODO: argument error checking
-	for i := 0; i < len(os.Args); i++ {
-		switch os.Args[i] {
-		case "--" + timeArg.longName, "-" + string(timeArg.shortName):
-			args[timeArg.longName] = os.Args[i+1]
-		case "--" + nameArg.longName, "-" + string(nameArg.shortName):
-			args[nameArg.longName] = os.Args[i+1]
-		case "--" + logArg.longName, "-" + string(logArg.shortName):
-			args[logArg.longName] = os.Args[i+1]
-		}
+	taskStruct := flagStruct{
+		name:  "task",
+		value: "Untitled task",
+		usage: "Set the name and/or description of the task.",
 	}
 
-	name := args["name"]
-	duration, err := time.ParseDuration(args["time"])
-	logfile := args["log"]
+	logStruct := flagStruct{
+		name:  "log",
+		value: "./gomo.log",
+		usage: "Set path to the output log file.",
+	}
+
+	var durationFlag, taskFlag, logFlag string
+	flag.StringVar(&durationFlag, durationStruct.name, durationStruct.value, durationStruct.usage)
+	flag.StringVar(&taskFlag, taskStruct.name, taskStruct.value, taskStruct.usage)
+	flag.StringVar(&logFlag, logStruct.name, logStruct.value, logStruct.usage)
+
+	flag.Parse()
+	fmt.Println(durationFlag, taskFlag, logFlag)
+
+	duration, err := time.ParseDuration(durationFlag)
+	logfile := logFlag
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println("Name:", name)
+	fmt.Println("Name:", taskFlag)
 	fmt.Printf("Time: %02v:%02v (%v)\n\n", int(duration.Minutes()), int(duration.Seconds())%60, duration)
 
 	// TODO: Use newTicker() to prevent leaking
@@ -84,7 +80,7 @@ func main() {
 	go func() {
 		for sig := range sigChan {
 			interruptedDuration := time.Since(startTime)
-			logMsg := fmt.Sprintf("%s-%s duration=%s task=\"%s\"\n", startTime.Format(TimeFormat), time.Now().Format(TimeFormat), formatTime(interruptedDuration), name)
+			logMsg := fmt.Sprintf("%s-%s duration=%s task=\"%s\"\n", startTime.Format(TimeFormat), time.Now().Format(TimeFormat), formatTime(interruptedDuration), taskFlag)
 			fmt.Printf("\nProgram exited, %v\nAppending log...\n", sig)
 			_, err := f.WriteString(logMsg)
 			if err != nil {
@@ -100,7 +96,7 @@ func main() {
 		fmt.Printf("\r%02v:%02v", int(elapsedTime.Minutes()), int(elapsedTime.Seconds())%60)
 
 		if elapsedTime.Seconds() > duration.Seconds() {
-			logMsg := fmt.Sprintf("%s-%s duration=%s task=\"%s\"\n", startTime.Format(TimeFormat), time.Now().Format(TimeFormat), formatTime(duration), name)
+			logMsg := fmt.Sprintf("%s-%s duration=%s task=\"%s\"\n", startTime.Format(TimeFormat), time.Now().Format(TimeFormat), formatTime(duration), taskFlag)
 			_, err = f.WriteString(logMsg)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Failed to write to the file, %s\n", logfile)
