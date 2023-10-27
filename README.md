@@ -17,6 +17,13 @@ Developed and tested on Linux Mint using Go 1.21.2
 - config using $XDG_CONFIG_HOME
 - minimalistic way to cycle between task and rest
 
+## Installation
+```
+git clone https://github.com/leongjs98/gomo
+cd gomo && go build
+mkdir ~/.local/share/gomo/ && mv main ~/.local/share/gomo/gomo
+```
+
 ## usage
 ```sh
 gomo --task "Your Task" --duration "30m" && notify-send "Task done" "Take a rest"
