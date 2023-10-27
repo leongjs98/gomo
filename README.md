@@ -1,6 +1,6 @@
 # gomo
 
-A customisable terminal pomodoro app with defaults for the minimalists. 
+A minimalistic terminal pomodoro app written with Golang.
 
 Developed and tested on Linux Mint using Go 1.21.2
 
