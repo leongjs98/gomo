@@ -21,7 +21,9 @@ Developed and tested on Linux Mint using Go 1.21.2
 ```sh
 git clone https://github.com/leongjs98/gomo
 cd gomo && go build main.go
-mkdir -p ~/.local/share/bin/ && mv main ~/.local/share/gomo/gomo
+
+# Copy to your $PATH
+cp main ~/.local/bin/gomo
 ```
 
 ## usage
