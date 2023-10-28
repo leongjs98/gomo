@@ -16,10 +16,22 @@ type flagStruct struct {
 	usage string
 }
 
-type arg struct {
-	longName    string
-	shortName   rune
-	description string
+var durationStruct = flagStruct{
+	name:  "duration",
+	value: "30m",
+	usage: "Set the duration of the task.",
+}
+
+var taskStruct = flagStruct{
+	name:  "task",
+	value: "Untitled task",
+	usage: "Set the name and/or description of the task.",
+}
+
+var logStruct = flagStruct{
+	name:  "log",
+	value: "./gomo.log",
+	usage: "Set path to the output log file.",
 }
 
 func formatTime(d time.Duration) string {
@@ -28,24 +40,6 @@ func formatTime(d time.Duration) string {
 }
 
 func main() {
-
-	durationStruct := flagStruct{
-		name:  "duration",
-		value: "30m",
-		usage: "Set the duration of the task.",
-	}
-
-	taskStruct := flagStruct{
-		name:  "task",
-		value: "Untitled task",
-		usage: "Set the name and/or description of the task.",
-	}
-
-	logStruct := flagStruct{
-		name:  "log",
-		value: "./gomo.log",
-		usage: "Set path to the output log file.",
-	}
 
 	var durationFlag, taskFlag, logFlag string
 	flag.StringVar(&durationFlag, durationStruct.name, durationStruct.value, durationStruct.usage)

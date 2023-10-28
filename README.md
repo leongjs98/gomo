@@ -20,8 +20,8 @@ Developed and tested on Linux Mint using Go 1.21.2
 ## Installation
 ```sh
 git clone https://github.com/leongjs98/gomo
-cd gomo && go build
-mkdir ~/.local/share/gomo/ && mv main ~/.local/share/gomo/gomo
+cd gomo && go build main.go
+mkdir -p ~/.local/share/bin/ && mv main ~/.local/share/gomo/gomo
 ```
 
 ## usage
