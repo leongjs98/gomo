@@ -31,6 +31,16 @@ cp main ~/.local/bin/gomo
 gomo --task "Your Task" --duration "30m" && notify-send "Task done" "Take a rest"
 ```
 
+### Alias for notification
+
+You are most likely to repeat the notifcation part on every task.
+I suggest using alias for it since they are lengthy.
+In your `.bashrc` or `.zshrc`, set your alias.
+
+```sh
+custom-notification='notify-send "Task done" "Take a rest" && mpv /path/to/notification_sound.mpv'
+```
+
 ### Notification sounds
 
 Use `&&` to play your notification sound in the terminal

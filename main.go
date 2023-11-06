@@ -35,7 +35,7 @@ var logStruct = flagStruct{
 }
 
 func formatTime(d time.Duration) string {
-	dStr := fmt.Sprintf("%02vh%02vm%02vs", int(d.Hours()), int(d.Minutes()), int(d.Seconds())%60)
+	dStr := fmt.Sprintf("%02vh%02vm%02vs", int(d.Hours()), int(d.Minutes())%60, int(d.Seconds())%60)
 	return dStr
 }
 
@@ -81,7 +81,7 @@ func main() {
 				fmt.Fprintf(os.Stderr, "Failed writing log file, %s\n", logfile)
 			}
 
-			os.Exit(0)
+			os.Exit(1)
 		}
 	}()
 
